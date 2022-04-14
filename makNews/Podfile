@@ -7,7 +7,9 @@ target 'makNews' do
 
   # Pods for makNews
 
-
+  pod 'Alamofire'
+  pod 'Kingfisher' 
+ 
   target 'makNewsTests' do
     inherit! :search_paths
     # Pods for testing
