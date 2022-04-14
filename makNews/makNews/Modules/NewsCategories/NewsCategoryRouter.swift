@@ -29,5 +29,9 @@ class NewsCategoryRouter: NewsCategoryRouterProtocol {
 }
 
 extension NewsCategoryRouter: NewsCategoryPresenterToRouterProtocol {
+    func goToNewsSourceScreen(genre: String) {
+//        let postDetailView = MovieDetailRouter().build(movie: movie)
+//        view?.navigationController?.pushViewController(postDetailView, animated: true)
+    }
     
 }

@@ -9,7 +9,7 @@ import UIKit
 
 
 protocol NewsCategoryViewToPresenterProtocol: AnyObject {
-    
+    func goToNewsSourceScreen(genre: String)
 }
 
 protocol NewsCategoryPresenterProtocol: AnyObject {
@@ -27,7 +27,7 @@ protocol NewsCategoryPresenterToInteractorProtocol: AnyObject {
 }
 
 protocol NewsCategoryPresenterToRouterProtocol: AnyObject {
-    
+    func goToNewsSourceScreen(genre: String)
 }
 
 protocol NewsCategoryInteractorProtocol: AnyObject {

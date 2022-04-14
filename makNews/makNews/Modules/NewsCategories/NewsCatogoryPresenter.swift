@@ -20,7 +20,9 @@ class NewsCategoryPresenter: NewsCategoryPresenterProtocol {
 }
 
 extension NewsCategoryPresenter: NewsCategoryViewToPresenterProtocol {
-    
+    func goToNewsSourceScreen(genre: String) {
+        router?.goToNewsSourceScreen(genre: genre)
+    }
 }
 
 extension NewsCategoryPresenter: NewsCategoryInteractorToPresenter {
