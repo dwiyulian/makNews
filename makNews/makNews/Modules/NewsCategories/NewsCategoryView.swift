@@ -102,12 +102,22 @@ class NewsCategoryView: UIViewController {
     
     
     var presenter: NewsCategoryViewToPresenterProtocol?
-    var newsCategory = NewsCategories.categories
+    var newsCategory = [Categories]()
+    var topHeadlineArticles = [Article]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupView()
+        setupConstraints()
+        presenter?.fetchAllGenres()
+        presenter?.fetchTopHeadlineArticle()
+    }
+    
+    private func setupView() {
         self.view.backgroundColor = .white
-        
+    }
+    
+    private func setupConstraints() {
         view.addSubview(parentStackView)
         
         NSLayoutConstraint.activate([
@@ -136,11 +146,8 @@ class NewsCategoryView: UIViewController {
             headlineCollectionView.trailingAnchor.constraint(equalTo: vStackView.trailingAnchor),
 
         ])
-        
-        genreCollectionView.reloadData()
-        headlineCollectionView.reloadData()
-        
     }
+    
 
 
 }
@@ -150,22 +157,32 @@ extension NewsCategoryView: UICollectionViewDelegate, UICollectionViewDataSource
         if collectionView == genreCollectionView {
             return newsCategory.count
         }else{
-            return 3
+            return topHeadlineArticles.count
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-      if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCategoryCollectionViewCell.identifier, for: indexPath) as? NewsCategoryCollectionViewCell {
-        cell.setup(category: newsCategory[indexPath.item])
-        return cell
-      }
-      return UICollectionViewCell()
+        if collectionView == genreCollectionView {
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCategoryCollectionViewCell.identifier, for: indexPath) as? NewsCategoryCollectionViewCell {
+              cell.setupGenre(category: newsCategory[indexPath.item])
+              return cell
+            }
+        }else{
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NewsCategoryCollectionViewCell.identifier, for: indexPath) as? NewsCategoryCollectionViewCell {
+                cell.setupHeadline(article: topHeadlineArticles[indexPath.item])
+              return cell
+            }
+        }
+      
+        return UICollectionViewCell()
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == genreCollectionView {
             self.presenter?.goToNewsSourceScreen(genre: newsCategory[indexPath.item].rawValue)
+        }else{
+            self.presenter?.goToArticleWebScreen(article: topHeadlineArticles[indexPath.item])
         }
     }
     
@@ -199,6 +216,20 @@ extension NewsCategoryView: UICollectionViewDelegateFlowLayout {
 }
 
 extension NewsCategoryView: NewsCategoryPresenterToViewProtocol {
+    func successFetchedAllGenres(genres: [Categories]) {
+        self.newsCategory = genres
+        genreCollectionView.reloadData()
+    }
+    
+    func successFetchedTopHeadlineArticles(articles: [Article]) {
+        self.topHeadlineArticles = articles
+        headlineCollectionView.reloadData()
+    }
+    
+    func handleErrorFetched() {
+        
+    }
+    
     
 }
 

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class NewsCategoryCollectionViewCell: UICollectionViewCell {
     static let identifier = "NewsCategoryCell"
@@ -16,8 +17,17 @@ class NewsCategoryCollectionViewCell: UICollectionViewCell {
         view.backgroundColor = .systemBlue
         view.layer.cornerRadius = 8
         view.clipsToBounds = true
+        view.addSubview(backgoundImageView)
         view.addSubview(titleLabel)
         return view
+    }()
+    
+    private lazy var backgoundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.isHidden = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
     }()
     
     private lazy var titleLabel: UILabel = {
@@ -49,6 +59,11 @@ class NewsCategoryCollectionViewCell: UICollectionViewCell {
             titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
             
+            backgoundImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            backgoundImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            backgoundImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            backgoundImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            
             containerView.topAnchor.constraint(equalTo: topAnchor),
             containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -56,8 +71,20 @@ class NewsCategoryCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setup(category: Categories) {
+    func setupGenre(category: Categories) {
         titleLabel.text = category.rawValue
+    }
+    
+    
+    func setupHeadline(article: Article){
+        backgoundImageView.isHidden = false
+        titleLabel.text = article.title
+        
+        guard let stringUrl = article.urlToImage,
+                let url = URL(string: stringUrl) else {
+            return
+        }
+        backgoundImageView.kf.setImage(with: url, placeholder: UIImage().placeholder())
     }
     
 }

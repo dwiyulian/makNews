@@ -9,7 +9,10 @@ import UIKit
 
 
 protocol NewsCategoryViewToPresenterProtocol: AnyObject {
+    func fetchAllGenres()
+    func fetchTopHeadlineArticle()
     func goToNewsSourceScreen(genre: String)
+    func goToArticleWebScreen(article: Article)
 }
 
 protocol NewsCategoryPresenterProtocol: AnyObject {
@@ -19,15 +22,19 @@ protocol NewsCategoryPresenterProtocol: AnyObject {
 }
 
 protocol NewsCategoryPresenterToViewProtocol: AnyObject {
-    
+    func successFetchedAllGenres(genres: [Categories])
+    func successFetchedTopHeadlineArticles(articles: [Article])
+    func handleErrorFetched()
 }
 
 protocol NewsCategoryPresenterToInteractorProtocol: AnyObject {
-    
+    func fetchAllGenres()
+    func fetchTopHeadlineArticle()
 }
 
 protocol NewsCategoryPresenterToRouterProtocol: AnyObject {
     func goToNewsSourceScreen(genre: String)
+    func goToArticleWebScreen(article: Article)
 }
 
 protocol NewsCategoryInteractorProtocol: AnyObject {
@@ -35,6 +42,9 @@ protocol NewsCategoryInteractorProtocol: AnyObject {
 }
 
 protocol NewsCategoryInteractorToPresenter: AnyObject {
+    func successFetchedAllGenres(genres: [Categories])
+    func successFetchedTopHeadlineArticles(articles: [Article])
+    func handleErrorFetched()
 }
 
 
