@@ -64,10 +64,27 @@ class NewsSearchView: BaseViewController {
         return button
     }()
     
-    private lazy var resultTableView: UITableView = {
+    private lazy var tableContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(articleTableView)
+        view.addSubview(sourceTableView)
+        return view
+    }()
+    
+    private lazy var articleTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(NewsArticleTableViewCell.self, forCellReuseIdentifier: NewsArticleTableViewCell.identifier)
+        tableView.separatorStyle = .none
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
+    private lazy var sourceTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsSourceTableViewCell.self, forCellReuseIdentifier: NewsSourceTableViewCell.identifier)
-        tableView.register(NewsArticleTableViewCell.self, forCellReuseIdentifier: NewsArticleTableViewCell.identifier)
         tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
@@ -84,28 +101,40 @@ class NewsSearchView: BaseViewController {
         super.viewDidLoad()
         setupView()
         setupConstraints()
+        setupEndlessScroll()
     }
     
     private func setupView() {
         self.addKeyboardDismissalListener()
         self.title = "Search"
         self.view.backgroundColor = .white
+        self.sourceTableView.isHidden = true
     }
     
     private func setupConstraints() {
         view.addSubview(mainStackView)
-        view.addSubview(resultTableView)
+        view.addSubview(tableContainerView)
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             
-            resultTableView.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 16),
-            resultTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            resultTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            resultTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableContainerView.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 16),
+            tableContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 
+            articleTableView.topAnchor.constraint(equalTo: tableContainerView.topAnchor),
+            articleTableView.trailingAnchor.constraint(equalTo: tableContainerView.trailingAnchor),
+            articleTableView.bottomAnchor.constraint(equalTo: tableContainerView.bottomAnchor),
+            articleTableView.leadingAnchor.constraint(equalTo: tableContainerView.leadingAnchor),
+            
+            sourceTableView.topAnchor.constraint(equalTo: tableContainerView.topAnchor),
+            sourceTableView.trailingAnchor.constraint(equalTo: tableContainerView.trailingAnchor),
+            sourceTableView.bottomAnchor.constraint(equalTo: tableContainerView.bottomAnchor),
+            sourceTableView.leadingAnchor.constraint(equalTo: tableContainerView.leadingAnchor),
+            
             searchBar.topAnchor.constraint(equalTo: headerContainerView.topAnchor),
             searchBar.trailingAnchor.constraint(equalTo: headerContainerView.trailingAnchor),
             searchBar.bottomAnchor.constraint(equalTo: headerContainerView.bottomAnchor),
@@ -114,11 +143,22 @@ class NewsSearchView: BaseViewController {
         ])
     }
     
+    private func setupEndlessScroll(){
+        articleTableView.addInfiniteScroll { (table) in
+            self.presenter?.loadMoreNewsArticles()
+        }
+        
+        sourceTableView.addInfiniteScroll { (table) in
+            self.presenter?.loadMoreNewsSource()
+        }
+    }
+    
     private func doSearch(keyword: String?){
         guard let text = keyword, !text.isEmpty else {
             self.newsSourceResults = []
             self.articleResults = []
-            self.resultTableView.reloadData()
+            self.articleTableView.reloadData()
+            self.sourceTableView.reloadData()
             return
         }
         
@@ -136,6 +176,8 @@ extension NewsSearchView {
         isSearchByArticle = true
         newsArticleButton.setSelected()
         newsSourceButton.setNormal()
+        articleTableView.isHidden = false
+        sourceTableView.isHidden = true
         doSearch(keyword: searchBar.textField.text)
         
     }
@@ -144,6 +186,8 @@ extension NewsSearchView {
         isSearchByArticle = false
         newsArticleButton.setNormal()
         newsSourceButton.setSelected()
+        articleTableView.isHidden = true
+        sourceTableView.isHidden = false
         doSearch(keyword: searchBar.textField.text)
     }
     
@@ -154,13 +198,12 @@ extension NewsSearchView {
 
 extension NewsSearchView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return isSearchByArticle == true ? articleResults.count : newsSourceResults.count
-        
+        return tableView == articleTableView ? articleResults.count : newsSourceResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if isSearchByArticle {
+        if tableView == articleTableView {
             if let cell = tableView.dequeueReusableCell(withIdentifier: NewsArticleTableViewCell.identifier, for: indexPath) as? NewsArticleTableViewCell {
                 cell.setup(article: articleResults[indexPath.row])
               return cell
@@ -175,7 +218,7 @@ extension NewsSearchView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if isSearchByArticle {
+        if tableView == articleTableView {
             let article = self.articleResults[indexPath.row]
             self.presenter?.goToArticleWebScreen(article: article)
         }else{
@@ -185,19 +228,47 @@ extension NewsSearchView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return isSearchByArticle == true ? 140 : 90
+        return tableView == articleTableView ? 140 : 90
     }
 }
 
 extension NewsSearchView: NewsSearchPresenterToViewProtocol {
+    func successLoadMoreNewsArticles(articles: [Article]) {
+        articleTableView.finishInfiniteScroll()
+        
+        let articleCount = articleResults.count
+        let (start, end) = (articleCount, articles.count + articleCount)
+        let indexPaths = (start..<end).map { return IndexPath(row: $0, section: 0) }
+        
+        articleResults.append(contentsOf: articles)
+        
+        self.articleTableView.beginUpdates()
+        self.articleTableView.insertRows(at: indexPaths, with: .automatic)
+        self.articleTableView.endUpdates()
+    }
+    
+    func successLoadMoreNewsSource(sources: [Sources]) {
+        sourceTableView.finishInfiniteScroll()
+        
+        let sourceCount = newsSourceResults.count
+        let (start, end) = (sourceCount, sources.count + sourceCount)
+        let indexPaths = (start..<end).map { return IndexPath(row: $0, section: 0) }
+        
+        newsSourceResults.append(contentsOf: sources)
+        
+        self.sourceTableView.beginUpdates()
+        self.sourceTableView.insertRows(at: indexPaths, with: .automatic)
+        self.sourceTableView.endUpdates()
+    }
+    
     func successFetchedNewsSources(sources: [Sources]) {
         self.newsSourceResults = sources
-        self.resultTableView.reloadData()
+        self.sourceTableView.reloadData()
     }
     
     func successFetchedNewsArticles(articles: [Article]) {
         self.articleResults = articles
-        self.resultTableView.reloadData()
+        self.articleTableView.reloadData()
     }
     
     func handleErrorFetched() {

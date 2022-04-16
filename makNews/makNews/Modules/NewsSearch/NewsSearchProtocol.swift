@@ -10,6 +10,8 @@ import UIKit
 protocol NewsSearchViewToPresenterProtocol {
     func searchNewsArticle(by: String)
     func searchNewsSource(by: String)
+    func loadMoreNewsSource()
+    func loadMoreNewsArticles()
     func goToNewsArticlesScreen(source: Sources)
     func goToArticleWebScreen(article: Article)
 }
@@ -23,12 +25,16 @@ protocol NewsSearchPresenterProtocol {
 protocol NewsSearchPresenterToViewProtocol {
     func successFetchedNewsSources(sources: [Sources])
     func successFetchedNewsArticles(articles: [Article])
+    func successLoadMoreNewsArticles(articles: [Article])
+    func successLoadMoreNewsSource(sources: [Sources])
     func handleErrorFetched()
 }
 
 protocol NewsSearchPresenterToInteractorProtocol {
     func searchNewsArticle(by: String)
     func searchNewsSource(by: String)
+    func loadMoreNewsArticles()
+    func loadMoreNewsSource()
 }
 
 protocol NewsSearchPresenterToRouterProtocol {
@@ -43,6 +49,8 @@ protocol NewsSearchInteractorProtocol {
 protocol NewsSearchInteractorToPresenterProtocol {
     func successFetchedNewsSources(sources: [Sources])
     func successFetchedNewsArticles(articles: [Article])
+    func successLoadMoreNewsArticles(articles: [Article])
+    func successLoadMoreNewsSource(sources: [Sources])
     func handleErrorFetched()
 }
 

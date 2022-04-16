@@ -11,7 +11,8 @@ class NewsEndPoints: EndPointProtocols {
     
     private let baseUrl = "https://newsapi.org/v2/"
     //var key = "b55d85bcee6248329f3cbac9cbfa1cef"
-    var key = "51edc6bc23814467bff2e823606bb1a6"
+    //var key = "51edc6bc23814467bff2e823606bb1a6"
+    var key = "38512ca8ff504c29848d3ad6993e99d8"
     
     func allCategories() -> String {
         return baseUrl + "top-headlines/sources"

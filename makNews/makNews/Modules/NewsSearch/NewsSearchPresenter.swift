@@ -24,6 +24,14 @@ extension NewsSearchPresenter: NewsSearchViewToPresenterProtocol {
         interactor?.searchNewsSource(by: by)
     }
     
+    func loadMoreNewsArticles() {
+        interactor?.loadMoreNewsArticles()
+    }
+    
+    func loadMoreNewsSource() {
+        interactor?.loadMoreNewsSource()
+    }
+    
     func goToNewsArticlesScreen(source: Sources) {
         router?.goToNewsArticlesScreen(source: source)
     }
@@ -41,6 +49,14 @@ extension NewsSearchPresenter: NewsSearchInteractorToPresenterProtocol {
     
     func successFetchedNewsArticles(articles: [Article]) {
         view?.successFetchedNewsArticles(articles: articles)
+    }
+    
+    func successLoadMoreNewsArticles(articles: [Article]) {
+        view?.successLoadMoreNewsArticles(articles: articles)
+    }
+    
+    func successLoadMoreNewsSource(sources: [Sources]) {
+        view?.successLoadMoreNewsSource(sources: sources)
     }
     
     func handleErrorFetched() {
