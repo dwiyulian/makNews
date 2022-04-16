@@ -11,6 +11,7 @@ import UIKit
 
 protocol NewsSourceViewToPresenterProtocol: AnyObject {
     func searchForNewsSource(genre: String)
+    func loadMoreNewsSource()
     func goToNewsArticlesScreen(source: Sources)
 }
 
@@ -22,6 +23,7 @@ protocol NewsSourcePresenterProtocol: AnyObject {
 
 protocol NewsSourcePresenterToViewProtocol: AnyObject {
     func successFetchedNewsSource(sources: [Sources])
+    func successLoadMoreNewsSource(sources: [Sources])
     func handleErrorFetched()
     func showActivityIndicator()
     func hideActivityIndicator()
@@ -29,6 +31,7 @@ protocol NewsSourcePresenterToViewProtocol: AnyObject {
 
 protocol NewsSourcePresenterToInteractorProtocol: AnyObject {
     func fetchSearchedNewsSources(genre: String)
+    func loadMoreNewsSource()
 }
 
 protocol NewsSourcePresenterToRouterProtocol: AnyObject {
@@ -41,6 +44,7 @@ protocol NewsSourceInteractorProtocol: AnyObject {
 
 protocol NewsSourceInteractorToPresenterProtocol: AnyObject {
     func successFetchedNewsSource(sources: [Sources])
+    func successLoadMoreNewsSource(sources: [Sources])
     func handleErrorFetched()
 }
 

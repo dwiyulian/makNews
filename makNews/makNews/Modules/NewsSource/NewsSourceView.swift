@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import UIScrollView_InfiniteScroll
 
 class NewsSourceView: BaseViewController {
     
@@ -28,6 +28,7 @@ class NewsSourceView: BaseViewController {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
+        setupEndlessScroll()
         presenter?.searchForNewsSource(genre: genre)
     }
     
@@ -45,6 +46,12 @@ class NewsSourceView: BaseViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func setupEndlessScroll(){
+        tableView.addInfiniteScroll { (table) in
+            self.presenter?.loadMoreNewsSource()
+        }
     }
 }
 
@@ -73,6 +80,20 @@ extension NewsSourceView: NewsSourcePresenterToViewProtocol {
     func successFetchedNewsSource(sources: [Sources]) {
         self.newsSources = sources
         self.tableView.reloadData()
+    }
+    
+    func successLoadMoreNewsSource(sources: [Sources]) {
+        tableView.finishInfiniteScroll()
+        
+        let sourceCount = newsSources.count
+        let (start, end) = (sourceCount, sources.count + sourceCount)
+        let indexPaths = (start..<end).map { return IndexPath(row: $0, section: 0) }
+        
+        newsSources.append(contentsOf: sources)
+        
+        self.tableView.beginUpdates()
+        self.tableView.insertRows(at: indexPaths, with: .automatic)
+        self.tableView.endUpdates()
     }
     
     func handleErrorFetched() {

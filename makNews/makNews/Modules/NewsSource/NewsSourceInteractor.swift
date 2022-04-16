@@ -11,6 +11,8 @@ class NewsSourceInteractor: NewsSourceInteractorProtocol {
     var presenter: NewsSourceInteractorToPresenterProtocol?
     var network: NetworkServiceProtocol?
     var urlsApi: EndPointProtocols?
+    var allNewsSource = [Sources]()
+    var currentPaging: Int = 0
 }
 
 
@@ -29,8 +31,11 @@ extension NewsSourceInteractor: NewsSourcePresenterToInteractorProtocol {
         
         network?.request(url: url, method: .get, parameters: parameters, success: { [weak self] (response) in
                 do {
-                  let responseApi = try JSONDecoder().decode(NewsSourcesModel.self, from: response)
-                    self?.presenter?.successFetchedNewsSource(sources: responseApi.sources)
+                    guard let _self = self else {return}
+                    let responseApi = try JSONDecoder().decode(NewsSourcesModel.self, from: response)
+                    _self.allNewsSource = responseApi.sources
+                    let sources = _self.fetchPagingNewsSource(page: _self.currentPaging)
+                    _self.presenter?.successFetchedNewsSource(sources: sources)
                 } catch {
                     print(error.localizedDescription)
                     self?.presenter?.handleErrorFetched()
@@ -39,4 +44,34 @@ extension NewsSourceInteractor: NewsSourcePresenterToInteractorProtocol {
                 self?.presenter?.handleErrorFetched()
           })
     }
+    
+    func loadMoreNewsSource() {
+        let sources = fetchPagingNewsSource(page: self.currentPaging)
+        self.presenter?.successLoadMoreNewsSource(sources: sources)
+    }
+    
+    
+    private func fetchPagingNewsSource(page: Int) -> [Sources] {
+        guard allNewsSource.count > 0 else {
+            return []
+        }
+        
+        var newsSources = [Sources]()
+        
+        let totalData = allNewsSource.count
+        let pageSize = 10
+        let minRange = page * pageSize
+        var maxRange = minRange + pageSize - 1
+        
+        if totalData > minRange {
+            if maxRange > totalData - 1 {maxRange = totalData - 1}
+            
+            let arrSlice = allNewsSource[minRange...maxRange]
+            newsSources =  Array(arrSlice)
+            self.currentPaging += 1
+        }
+        
+        return newsSources
+    }
 }
+

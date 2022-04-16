@@ -21,6 +21,10 @@ extension NewsSourcePresenter: NewsSourceViewToPresenterProtocol {
         interactor?.fetchSearchedNewsSources(genre: genre)
     }
     
+    func loadMoreNewsSource() {
+        interactor?.loadMoreNewsSource()
+    }
+    
     func goToNewsArticlesScreen(source: Sources) {
         router?.goToNewsArticlesScreen(source: source)
     }
@@ -31,6 +35,10 @@ extension NewsSourcePresenter: NewsSourceInteractorToPresenterProtocol {
     func successFetchedNewsSource(sources: [Sources]) {
         view?.hideActivityIndicator()
         view?.successFetchedNewsSource(sources: sources)
+    }
+    
+    func successLoadMoreNewsSource(sources: [Sources]) {
+        view?.successLoadMoreNewsSource(sources: sources)
     }
     
     func handleErrorFetched() {
