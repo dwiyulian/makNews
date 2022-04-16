@@ -21,6 +21,10 @@ extension NewsArticlePresenter: NewsArticleViewToPresenterProtocol {
         interactor?.fetchSearchedNewsArticles(sourceId: sourceId)
     }
     
+    func loadMoreNewsArticles() {
+        interactor?.loadMoreNewsArticles()
+    }
+    
     func goToArticleWebScreen(article: Article) {
         router?.goToArticleWebScreen(article: article)
     }
@@ -30,6 +34,10 @@ extension NewsArticlePresenter: NewsArticleInteractorToPresenterProtocol {
     func successFetchedNewsArticles(articles: [Article]) {
         view?.hideActivityIndicator()
         view?.successFetchedNewsArticles(articles: articles)
+    }
+    
+    func successLoadMoreNewsArticles(articles: [Article]) {
+        view?.successLoadMoreNewsArticles(articles: articles)
     }
     
     func handleErrorFetched() {

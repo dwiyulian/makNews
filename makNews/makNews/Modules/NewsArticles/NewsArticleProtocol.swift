@@ -9,6 +9,7 @@ import UIKit
 
 protocol NewsArticleViewToPresenterProtocol {
     func searchForNewsArticles(sourceId: String)
+    func loadMoreNewsArticles()
     func goToArticleWebScreen(article: Article)
 }
 
@@ -20,6 +21,7 @@ protocol NewsArticlePresenterProtocol {
 
 protocol NewsArticlePresenterToViewProtocol {
     func successFetchedNewsArticles(articles: [Article])
+    func successLoadMoreNewsArticles(articles: [Article])
     func handleErrorFetched()
     func showActivityIndicator()
     func hideActivityIndicator()
@@ -27,6 +29,7 @@ protocol NewsArticlePresenterToViewProtocol {
 
 protocol NewsArticlePresenterToInteractorProtocol {
     func fetchSearchedNewsArticles(sourceId: String)
+    func loadMoreNewsArticles()
 }
 
 protocol NewsArticlePresenterToRouterProtocol {
@@ -39,6 +42,7 @@ protocol NewsArticleInteractorProtocol {
 
 protocol NewsArticleInteractorToPresenterProtocol {
     func successFetchedNewsArticles(articles: [Article])
+    func successLoadMoreNewsArticles(articles: [Article])
     func handleErrorFetched()
 }
 
