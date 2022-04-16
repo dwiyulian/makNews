@@ -12,7 +12,8 @@ class NewsArticleView: BaseViewController {
 
     lazy private var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(NewsSourceTableViewCell.self, forCellReuseIdentifier: NewsSourceTableViewCell.identifier)
+        tableView.register(NewsArticleTableViewCell.self, forCellReuseIdentifier: NewsArticleTableViewCell.identifier)
+        tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,9 +63,8 @@ extension NewsArticleView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: NewsSourceTableViewCell.identifier, for: indexPath) as? NewsSourceTableViewCell {
-          //cell.setup(source: newsSources[indexPath.row])
-            cell.textLabel?.text = self.newsArticles[indexPath.row].title
+        if let cell = tableView.dequeueReusableCell(withIdentifier: NewsArticleTableViewCell.identifier, for: indexPath) as? NewsArticleTableViewCell {
+            cell.setup(article: newsArticles[indexPath.row])
           return cell
         }
         return UITableViewCell()
@@ -73,6 +73,10 @@ extension NewsArticleView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let article = self.newsArticles[indexPath.row]
         self.presenter?.goToArticleWebScreen(article: article)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 140
     }
     
 }
