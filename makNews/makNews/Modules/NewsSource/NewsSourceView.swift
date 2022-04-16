@@ -13,6 +13,7 @@ class NewsSourceView: BaseViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsSourceTableViewCell.self, forCellReuseIdentifier: NewsSourceTableViewCell.identifier)
+        tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -71,6 +72,10 @@ extension NewsSourceView: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let source = self.newsSources[indexPath.row]
         self.presenter?.goToNewsArticlesScreen(source: source)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
     }
     
     
