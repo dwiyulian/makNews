@@ -15,4 +15,14 @@ extension UIView {
         self.layer.shadowRadius = 3.0
         self.layer.masksToBounds = false
     }
+    
+    func setCornerRadius(of radius: CGFloat) {
+        layer.cornerRadius = radius
+        clipsToBounds = true
+    }
+    
+    func setBorder(_ width: CGFloat, _ color: UIColor) {
+        layer.borderWidth = width
+        layer.borderColor = color.cgColor
+    }
 }

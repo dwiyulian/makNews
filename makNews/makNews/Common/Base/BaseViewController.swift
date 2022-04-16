@@ -7,6 +7,7 @@
 
 import UIKit
 import NVActivityIndicatorView
+import SwiftUI
 
 class BaseViewController: UIViewController {
     
@@ -24,7 +25,15 @@ class BaseViewController: UIViewController {
 
     }
     
+    func showAlert(_ message: String){
+        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
+}
 
+//MARK: Configure Activity Indicator
+extension BaseViewController {
     func initHUD(withView: UIView){
         let padding = max(withView.frame.width / 8, withView.frame.height / 8)
         
@@ -115,22 +124,48 @@ class BaseViewController: UIViewController {
             self.backgroundHudView.removeFromSuperview()
         }
     }
-    
-    func showAlert(_ message: String){
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-//            switch action.style{
-//                case .default:
-//                print("default")
-//
-//                case .cancel:
-//                print("cancel")
-//
-//                case .destructive:
-//                print("destructive")
-//
-//            }
-//        }))
-        self.present(alert, animated: true, completion: nil)
+}
+
+//MARK: Configure Nagivation Bar
+extension BaseViewController {
+    func configureNavigationBar(withSearch: Bool = false, delegate: UICustomSearchBarViewDelegate?){
+        let imaageIcon = UIImageView()
+        imaageIcon.image = UIImage(named: "iconMakNews")
+        
+        let title = UILabel()
+        title.text = "MAKNEWS"
+        title.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        title.textColor = .systemBlue
+        
+        let titleStack = UIStackView()
+        titleStack.axis = .horizontal
+        titleStack.spacing = 8
+        titleStack.alignment = .center
+        titleStack.addArrangedSubview(imaageIcon)
+        titleStack.addArrangedSubview(title)
+        
+        let titileBarItem = UIBarButtonItem(customView: titleStack)
+        
+        let searchBar = UICustomSearchBarView()
+        searchBar.delegate = delegate
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.textField.isEnabled = false
+        
+        let searchBarItem = UIBarButtonItem(customView: searchBar)
+        
+        
+        if withSearch {
+            navigationItem.setLeftBarButton(searchBarItem, animated: true)
+        } else {
+            navigationItem.setLeftBarButton(titileBarItem, animated: true)
+        }
+        
+        NSLayoutConstraint.activate([
+            imaageIcon.widthAnchor.constraint(equalToConstant: 32),
+            imaageIcon.heightAnchor.constraint(equalToConstant: 32),
+            
+            searchBar.widthAnchor.constraint(equalToConstant: view.frame.width - 40),
+            searchBar.heightAnchor.constraint(equalToConstant: 30)
+        ])
     }
 }

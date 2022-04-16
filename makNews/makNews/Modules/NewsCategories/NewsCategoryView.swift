@@ -22,6 +22,7 @@ class NewsCategoryView: BaseViewController {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.delegate = self
         scrollView.showsVerticalScrollIndicator = false
         scrollView.addSubview(hStackView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -42,12 +43,22 @@ class NewsCategoryView: BaseViewController {
         stackView.axis = .vertical
         stackView.distribution = .fillProportionally
         stackView.spacing = 14
+        stackView.addArrangedSubview(searchBar)
         stackView.addArrangedSubview(headlineLabel)
         stackView.addArrangedSubview(headlineCollectionView)
         stackView.addArrangedSubview(allGenreLabel)
         stackView.addArrangedSubview(genreCollectionView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
+    }()
+    
+    lazy var searchBar: UICustomSearchBarView = {
+        let searchBar = UICustomSearchBarView()
+        searchBar.delegate = self
+        searchBar.textField.isEnabled = false
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        return searchBar
     }()
     
     private lazy var allGenreLabel: UILabel = {
@@ -101,13 +112,14 @@ class NewsCategoryView: BaseViewController {
         return collectionView
     }()
     
-    
+    var navBarWithSearchAppear: Bool = false
     var presenter: NewsCategoryViewToPresenterProtocol?
     var newsCategory = [Categories]()
     var topHeadlineArticles = [Article]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationBar(delegate: self)
         setupView()
         setupConstraints()
     }
@@ -136,7 +148,7 @@ class NewsCategoryView: BaseViewController {
             scrollView.bottomAnchor.constraint(equalTo: parentStackView.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: parentStackView.leadingAnchor),
 
-            hStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            hStackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 16),
             hStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             hStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             hStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -155,6 +167,32 @@ class NewsCategoryView: BaseViewController {
     
 
 
+}
+
+extension NewsCategoryView: UICustomSearchBarViewDelegate {
+    func tapped() {
+        
+    }
+}
+
+extension NewsCategoryView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView == self.scrollView {
+            let viewFrame = scrollView.convert(searchBar.bounds, from: searchBar)
+            if viewFrame.intersects(scrollView.bounds) {
+                // default navbar
+                guard navBarWithSearchAppear else {return}
+                configureNavigationBar(delegate: self)
+                navBarWithSearchAppear = false
+            }
+            else {
+                // navar with search bar
+                guard !navBarWithSearchAppear else {return}
+                configureNavigationBar(withSearch: true, delegate: self)
+                navBarWithSearchAppear = true
+            }
+        }
+    }
 }
 
 extension NewsCategoryView: UICollectionViewDelegate, UICollectionViewDataSource {

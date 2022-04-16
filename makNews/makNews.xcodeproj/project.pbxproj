@@ -12,6 +12,8 @@
 		D027BDEAED871C0269F74CF3 /* Pods_makNews_makNewsUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5B78AC5C7BF3D19F76E736 /* Pods_makNews_makNewsUITests.framework */; };
 		FA001E5C280A4B9500B14E74 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA001E5B280A4B9500B14E74 /* BaseViewController.swift */; };
 		FA001E5F280A549B00B14E74 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA001E5E280A549B00B14E74 /* UIView+Extensions.swift */; };
+		FA001E63280A66F400B14E74 /* UICustomSearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA001E62280A66F400B14E74 /* UICustomSearchBarView.swift */; };
+		FA001E66280A865900B14E74 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA001E65280A865900B14E74 /* Color.swift */; };
 		FA3D28A82807BD9A00388475 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3D28A72807BD9A00388475 /* AppDelegate.swift */; };
 		FA3D28AA2807BD9A00388475 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3D28A92807BD9A00388475 /* SceneDelegate.swift */; };
 		FA3D28AC2807BD9A00388475 /* NewsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3D28AB2807BD9A00388475 /* NewsCategoryView.swift */; };
@@ -75,6 +77,8 @@
 		DE4F909DE3AE0F0BDC12774F /* Pods-makNews-makNewsUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-makNews-makNewsUITests.debug.xcconfig"; path = "Target Support Files/Pods-makNews-makNewsUITests/Pods-makNews-makNewsUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		FA001E5B280A4B9500B14E74 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		FA001E5E280A549B00B14E74 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		FA001E62280A66F400B14E74 /* UICustomSearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICustomSearchBarView.swift; sourceTree = "<group>"; };
+		FA001E65280A865900B14E74 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		FA3D28A42807BD9A00388475 /* makNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = makNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA3D28A72807BD9A00388475 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FA3D28A92807BD9A00388475 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -176,6 +180,22 @@
 				FA001E5B280A4B9500B14E74 /* BaseViewController.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		FA001E64280A66FB00B14E74 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				FA001E62280A66F400B14E74 /* UICustomSearchBarView.swift */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
+		FA001E67280A866300B14E74 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				FA001E65280A865900B14E74 /* Color.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		FA3D289B2807BD9A00388475 = {
@@ -289,6 +309,8 @@
 				FA3D28E62807DF4200388475 /* NetworkServices */,
 				FA3D28E52807DF3B00388475 /* Extensions */,
 				FA001E5D280A4BAB00B14E74 /* Base */,
+				FA001E64280A66FB00B14E74 /* CustomViews */,
+				FA001E67280A866300B14E74 /* Utility */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -603,8 +625,10 @@
 				FA3D28DA2807C4F700388475 /* AppRouter.swift in Sources */,
 				FA3D28E02807C7AD00388475 /* NewsCatogoryPresenter.swift in Sources */,
 				FA3D28AC2807BD9A00388475 /* NewsCategoryView.swift in Sources */,
+				FA001E63280A66F400B14E74 /* UICustomSearchBarView.swift in Sources */,
 				FA3D28EC2807E2D200388475 /* NetworkService.swift in Sources */,
 				FA3D28FE2808CC6600388475 /* NewsSourceView.swift in Sources */,
+				FA001E66280A865900B14E74 /* Color.swift in Sources */,
 				FA3D28A82807BD9A00388475 /* AppDelegate.swift in Sources */,
 				FA3D28AA2807BD9A00388475 /* SceneDelegate.swift in Sources */,
 				FA3D29022808CC9600388475 /* NewsSourcePresenter.swift in Sources */,
