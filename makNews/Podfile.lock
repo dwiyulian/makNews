@@ -4,23 +4,27 @@ PODS:
   - NVActivityIndicatorView (5.1.1):
     - NVActivityIndicatorView/Base (= 5.1.1)
   - NVActivityIndicatorView/Base (5.1.1)
+  - UIScrollView-InfiniteScroll (1.1.0)
 
 DEPENDENCIES:
   - Alamofire
   - Kingfisher
   - NVActivityIndicatorView
+  - UIScrollView-InfiniteScroll
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - Kingfisher
     - NVActivityIndicatorView
+    - UIScrollView-InfiniteScroll
 
 SPEC CHECKSUMS:
   Alamofire: 0c07058209f211e3d32824f8e0766d7c44ac83b3
   Kingfisher: 7c084bebf7d548c623ad41bcf765fb200efed369
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
+  UIScrollView-InfiniteScroll: 3ef456bcbe759c19f510a383cff96e6647c98c98
 
-PODFILE CHECKSUM: 30ce7f610098ee021bfc001dab235108aa8a57ad
+PODFILE CHECKSUM: 11e4283d00419c4eeaad20dd22fa529473d3d72c
 
 COCOAPODS: 1.11.2

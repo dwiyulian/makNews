@@ -10,6 +10,7 @@ target 'makNews' do
   pod 'Alamofire'
   pod 'Kingfisher'
   pod 'NVActivityIndicatorView'
+  pod 'UIScrollView-InfiniteScroll'
  
   target 'makNewsTests' do
     inherit! :search_paths
