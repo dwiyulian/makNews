@@ -16,7 +16,6 @@ class NewsSearchView: BaseViewController {
         stackView.distribution = .fill
         stackView.addArrangedSubview(headerContainerView)
         stackView.addArrangedSubview(hStackView)
-        stackView.addArrangedSubview(resultTableView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -68,6 +67,8 @@ class NewsSearchView: BaseViewController {
     private lazy var resultTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(NewsSourceTableViewCell.self, forCellReuseIdentifier: NewsSourceTableViewCell.identifier)
+        tableView.register(NewsArticleTableViewCell.self, forCellReuseIdentifier: NewsArticleTableViewCell.identifier)
+        tableView.separatorStyle = .none
         tableView.delegate = self
         tableView.dataSource = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -93,12 +94,17 @@ class NewsSearchView: BaseViewController {
     
     private func setupConstraints() {
         view.addSubview(mainStackView)
+        view.addSubview(resultTableView)
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 16),
             mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            
+            resultTableView.topAnchor.constraint(equalTo: mainStackView.bottomAnchor, constant: 16),
+            resultTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            resultTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            resultTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
 
             searchBar.topAnchor.constraint(equalTo: headerContainerView.topAnchor),
             searchBar.trailingAnchor.constraint(equalTo: headerContainerView.trailingAnchor),
@@ -153,15 +159,17 @@ extension NewsSearchView: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: NewsSourceTableViewCell.identifier, for: indexPath) as? NewsSourceTableViewCell {
-//          cell.setup(source: newsSources[indexPath.row])
-            
-            let text = isSearchByArticle == true ? articleResults[indexPath.row].title : newsSourceResults[indexPath.row].name
-            
-            
-            cell.textLabel?.text = text
-            
-          return cell
+        
+        if isSearchByArticle {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: NewsArticleTableViewCell.identifier, for: indexPath) as? NewsArticleTableViewCell {
+                cell.setup(article: articleResults[indexPath.row])
+              return cell
+            }
+        }else{
+            if let cell = tableView.dequeueReusableCell(withIdentifier: NewsSourceTableViewCell.identifier, for: indexPath) as? NewsSourceTableViewCell {
+                cell.setup(source: newsSourceResults[indexPath.row])
+              return cell
+            }
         }
         return UITableViewCell()
     }
@@ -174,6 +182,10 @@ extension NewsSearchView: UITableViewDataSource, UITableViewDelegate {
             let source = self.newsSourceResults[indexPath.row]
             self.presenter?.goToNewsArticlesScreen(source: source)
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return isSearchByArticle == true ? 140 : 90
     }
 }
 
