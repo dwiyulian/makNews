@@ -8,7 +8,8 @@ target 'makNews' do
   # Pods for makNews
 
   pod 'Alamofire'
-  pod 'Kingfisher' 
+  pod 'Kingfisher'
+  pod 'NVActivityIndicatorView'
  
   target 'makNewsTests' do
     inherit! :search_paths
