@@ -34,7 +34,7 @@ class UICustomSearchBarView: UIView {
         let textField = UITextField()
         textField.textColor = Color.shared.text
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-        textField.placeholder = "Cari artikel dan sumber berita"
+        textField.placeholder = "Search for articles and news sources"
         return textField
     }()
     

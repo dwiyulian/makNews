@@ -29,6 +29,10 @@ extension NewsCategoryPresenter: NewsCategoryViewToPresenterProtocol {
         interactor?.fetchTopHeadlineArticle()
     }
     
+    func goToNewsSearchScreen() {
+        router?.goToNewsSearchScreen()
+    }
+    
     func goToNewsSourceScreen(genre: String) {
         router?.goToNewsSourceScreen(genre: genre)
     }

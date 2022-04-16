@@ -35,6 +35,11 @@ class NewsCategoryRouter: NewsCategoryRouterProtocol {
 }
 
 extension NewsCategoryRouter: NewsCategoryPresenterToRouterProtocol {
+    func goToNewsSearchScreen() {
+        let postNewsSearchView = NewsSearchRouter().build()
+        view?.navigationController?.pushViewController(postNewsSearchView, animated: true)
+    }
+    
     func goToNewsSourceScreen(genre: String) {
         let postNewsSourceView = NewsSourceRouter().build(genre: genre)
         view?.navigationController?.pushViewController(postNewsSourceView, animated: true)

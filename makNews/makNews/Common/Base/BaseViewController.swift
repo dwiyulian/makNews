@@ -169,3 +169,18 @@ extension BaseViewController {
         ])
     }
 }
+
+//MARK: Configure dismiss keyboard
+extension BaseViewController {
+    @objc func dismissKeyboard() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+            self.view.endEditing(true)
+        }
+    }
+
+    func addKeyboardDismissalListener() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tapGesture)
+    }
+}

@@ -63,7 +63,7 @@ class NewsCategoryView: BaseViewController {
     
     private lazy var allGenreLabel: UILabel = {
         let label = UILabel()
-        label.text = "Semua Genre"
+        label.text = "All Categories"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.heightAnchor.constraint(equalToConstant: 30).isActive = true
         return label
@@ -72,7 +72,7 @@ class NewsCategoryView: BaseViewController {
     
     private lazy var headlineLabel: UILabel = {
         let label = UILabel()
-        label.text = "Headline Berita"
+        label.text = "Top Headlines"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.heightAnchor.constraint(equalToConstant: 30).isActive = true
         return label
@@ -119,7 +119,6 @@ class NewsCategoryView: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigationBar(delegate: self)
         setupView()
         setupConstraints()
     }
@@ -131,6 +130,7 @@ class NewsCategoryView: BaseViewController {
     }
     
     private func setupView() {
+        configureNavigationBar(delegate: self)
         self.view.backgroundColor = .white
     }
     
@@ -171,7 +171,7 @@ class NewsCategoryView: BaseViewController {
 
 extension NewsCategoryView: UICustomSearchBarViewDelegate {
     func tapped() {
-        
+        self.presenter?.goToNewsSearchScreen()
     }
 }
 

@@ -11,6 +11,7 @@ import UIKit
 protocol NewsCategoryViewToPresenterProtocol: AnyObject {
     func fetchAllGenres()
     func fetchTopHeadlineArticle()
+    func goToNewsSearchScreen()
     func goToNewsSourceScreen(genre: String)
     func goToArticleWebScreen(article: Article)
 }
@@ -35,6 +36,7 @@ protocol NewsCategoryPresenterToInteractorProtocol: AnyObject {
 }
 
 protocol NewsCategoryPresenterToRouterProtocol: AnyObject {
+    func goToNewsSearchScreen()
     func goToNewsSourceScreen(genre: String)
     func goToArticleWebScreen(article: Article)
 }
