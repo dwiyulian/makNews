@@ -25,6 +25,7 @@ extension NewsCategoryPresenter: NewsCategoryViewToPresenterProtocol {
     }
     
     func fetchTopHeadlineArticle() {
+        view?.showActivityIndicator()
         interactor?.fetchTopHeadlineArticle()
     }
     
@@ -43,10 +44,12 @@ extension NewsCategoryPresenter: NewsCategoryInteractorToPresenter {
     }
     
     func successFetchedTopHeadlineArticles(articles: [Article]) {
+        view?.hideActivityIndicator()
         view?.successFetchedTopHeadlineArticles(articles: articles)
     }
     
     func handleErrorFetched() {
+        view?.hideActivityIndicator()
         view?.handleErrorFetched()
     }
 }

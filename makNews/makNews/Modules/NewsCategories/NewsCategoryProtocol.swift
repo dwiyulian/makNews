@@ -25,6 +25,8 @@ protocol NewsCategoryPresenterToViewProtocol: AnyObject {
     func successFetchedAllGenres(genres: [Categories])
     func successFetchedTopHeadlineArticles(articles: [Article])
     func handleErrorFetched()
+    func showActivityIndicator()
+    func hideActivityIndicator()
 }
 
 protocol NewsCategoryPresenterToInteractorProtocol: AnyObject {

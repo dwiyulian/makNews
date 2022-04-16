@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewsArticleView: UIViewController {
+class NewsArticleView: BaseViewController {
 
     lazy private var tableView: UITableView = {
         let tableView = UITableView()
@@ -76,7 +76,15 @@ extension NewsArticleView: NewsArticlePresenterToViewProtocol {
     }
     
     func handleErrorFetched() {
-        
+        showAlert("Failed load data!")
+    }
+    
+    func showActivityIndicator() {
+        showProgressHUD()
+    }
+    
+    func hideActivityIndicator() {
+        hideProgressHUD()
     }
     
 }

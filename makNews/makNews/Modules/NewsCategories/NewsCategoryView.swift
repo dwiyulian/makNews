@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class NewsCategoryView: UIViewController {
+class NewsCategoryView: BaseViewController {
     
     private lazy var parentStackView: UIStackView = {
         let stackView = UIStackView()
@@ -80,6 +80,7 @@ class NewsCategoryView: UIViewController {
         collectionView.register(NewsCategoryCollectionViewCell.self, forCellWithReuseIdentifier: NewsCategoryCollectionViewCell.identifier)
         collectionView.collectionViewLayout = collectionFlowLayout
         collectionView.backgroundColor = .clear
+        collectionView.setShadow()
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -109,6 +110,10 @@ class NewsCategoryView: UIViewController {
         super.viewDidLoad()
         setupView()
         setupConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         presenter?.fetchAllGenres()
         presenter?.fetchTopHeadlineArticle()
     }
@@ -227,9 +232,15 @@ extension NewsCategoryView: NewsCategoryPresenterToViewProtocol {
     }
     
     func handleErrorFetched() {
-        
+        showAlert("Failed load data!")
     }
     
+    func showActivityIndicator() {
+        self.showProgressHUD(withView: self.headlineCollectionView)
+    }
     
+    func hideActivityIndicator() {
+        self.hideProgressHUD(withView: self.headlineCollectionView)
+    }
 }
 

@@ -21,6 +21,8 @@ protocol NewsArticlePresenterProtocol {
 protocol NewsArticlePresenterToViewProtocol {
     func successFetchedNewsArticles(articles: [Article])
     func handleErrorFetched()
+    func showActivityIndicator()
+    func hideActivityIndicator()
 }
 
 protocol NewsArticlePresenterToInteractorProtocol {

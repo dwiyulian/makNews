@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 
-class ArticleWebPageView: UIViewController {
+class ArticleWebPageView: BaseViewController {
 
     private lazy var webView: WKWebView = {
         let webView = WKWebView()
@@ -37,6 +37,7 @@ class ArticleWebPageView: UIViewController {
         guard let urlString = article?.url, let url = URL(string: urlString) else {
             return
         }
+        showProgressHUD()
         webView.load(URLRequest(url: url))
     }
     
@@ -55,7 +56,7 @@ class ArticleWebPageView: UIViewController {
 
 extension ArticleWebPageView: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-//        self.view.hideGradientImageLoading()
+        hideProgressHUD()
     }
 }
 

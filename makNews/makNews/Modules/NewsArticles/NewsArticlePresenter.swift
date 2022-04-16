@@ -17,6 +17,7 @@ class NewsArticlePresenter: NewsArticlePresenterProtocol {
 
 extension NewsArticlePresenter: NewsArticleViewToPresenterProtocol {
     func searchForNewsArticles(sourceId: String) {
+        view?.showActivityIndicator()
         interactor?.fetchSearchedNewsArticles(sourceId: sourceId)
     }
     
@@ -27,10 +28,12 @@ extension NewsArticlePresenter: NewsArticleViewToPresenterProtocol {
 
 extension NewsArticlePresenter: NewsArticleInteractorToPresenterProtocol {
     func successFetchedNewsArticles(articles: [Article]) {
+        view?.hideActivityIndicator()
         view?.successFetchedNewsArticles(articles: articles)
     }
     
     func handleErrorFetched() {
+        view?.hideActivityIndicator()
         view?.handleErrorFetched()
     }
 }

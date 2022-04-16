@@ -23,6 +23,8 @@ protocol NewsSourcePresenterProtocol: AnyObject {
 protocol NewsSourcePresenterToViewProtocol: AnyObject {
     func successFetchedNewsSource(sources: [Sources])
     func handleErrorFetched()
+    func showActivityIndicator()
+    func hideActivityIndicator()
 }
 
 protocol NewsSourcePresenterToInteractorProtocol: AnyObject {
