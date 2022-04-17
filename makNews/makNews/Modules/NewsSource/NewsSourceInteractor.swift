@@ -51,7 +51,7 @@ extension NewsSourceInteractor: NewsSourcePresenterToInteractorProtocol {
     }
     
     
-    private func fetchPagingNewsSource(page: Int) -> [Sources] {
+    func fetchPagingNewsSource(page: Int) -> [Sources] {
         guard allNewsSource.count > 0 else {
             return []
         }

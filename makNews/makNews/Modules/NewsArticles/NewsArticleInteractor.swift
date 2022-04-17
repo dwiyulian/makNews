@@ -50,7 +50,7 @@ extension NewsArticleInteractor: NewsArticlePresenterToInteractorProtocol {
     }
     
     
-    private func fetchPagingNewsArticles(page: Int) -> [Article] {
+    func fetchPagingNewsArticles(page: Int) -> [Article] {
         guard allNewsArticles.count > 0 else {
             return []
         }
