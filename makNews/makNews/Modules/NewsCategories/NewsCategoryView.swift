@@ -63,6 +63,7 @@ class NewsCategoryView: BaseViewController {
     
     private lazy var allGenreLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.text = "All Categories"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.heightAnchor.constraint(equalToConstant: 30).isActive = true
@@ -72,6 +73,7 @@ class NewsCategoryView: BaseViewController {
     
     private lazy var headlineLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.text = "Top Headlines"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.heightAnchor.constraint(equalToConstant: 30).isActive = true

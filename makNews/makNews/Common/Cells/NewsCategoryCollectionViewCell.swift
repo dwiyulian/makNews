@@ -95,7 +95,7 @@ class NewsCategoryCollectionViewCell: UICollectionViewCell {
     
     private lazy var categoryIconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
@@ -105,9 +105,11 @@ class NewsCategoryCollectionViewCell: UICollectionViewCell {
     private lazy var categoryTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 16, weight: .bold)
         label.textColor = .white
         label.sizeToFit()
         label.adjustsFontSizeToFitWidth = true
+        label.numberOfLines = 2
         label.minimumScaleFactor = 0.8
         return label
     }()
@@ -173,7 +175,8 @@ class NewsCategoryCollectionViewCell: UICollectionViewCell {
         headlineContainerView.isHidden = true
         categoryContainerView.isHidden = false
         categoryTitleLabel.text = category.rawValue
-        categoryIconImageView.image = UIImage(named: "iconClose")
+        categoryIconImageView.image = category.icon
+        categoryContainerView.backgroundColor = category.bgColor
     }
     
     

@@ -147,6 +147,7 @@ class NewsArticleTableViewCell: UITableViewCell {
         
         guard let stringUrl = article.urlToImage,
                 let url = URL(string: stringUrl) else {
+                    articleImageView.image = UIImage().placeholder()
             return
         }
         articleImageView.kf.setImage(with: url, placeholder: UIImage().placeholder())
